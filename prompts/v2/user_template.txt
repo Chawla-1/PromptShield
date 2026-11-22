@@ -1,0 +1,6 @@
+# PromptShield - User Prompt Template (Version 2: Hardened Instructions)
+
+Context:
+{context}
+
+Question: {question}

@@ -1,0 +1,23 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment and secrets - NEVER COMMIT KEYS
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.token
+.streamlit/secrets.toml
+
+# OS & IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary / backup outputs
+results/mock_*.csv
+results/runs_BACKUP*.csv

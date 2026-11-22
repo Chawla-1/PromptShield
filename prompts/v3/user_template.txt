@@ -1,0 +1,8 @@
+# PromptShield - User Prompt Template (Version 3: Spotlighting & Delimiters)
+
+<untrusted>
+{context}
+</untrusted>
+<untrusted>
+{question}
+</untrusted>

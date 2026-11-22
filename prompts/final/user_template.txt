@@ -1,0 +1,8 @@
+# PromptShield - Final User Prompt Template
+
+<untrusted>
+{context}
+</untrusted>
+<untrusted>
+{question}
+</untrusted>

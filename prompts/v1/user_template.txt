@@ -1,0 +1,6 @@
+# PromptShield - User Prompt Template (Version 1: Baseline)
+
+Context:
+{context}
+
+Question: {question}

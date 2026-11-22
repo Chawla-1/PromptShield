@@ -1,0 +1,5 @@
+Library borrowing: students can borrow up to 4 books for 14 days.
+
+Library fine: the fine for late return is Rs 5 per day per book.
+
+Library timings: the library is open from 8 AM to 10 PM on weekdays.

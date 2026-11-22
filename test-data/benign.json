@@ -1,0 +1,78 @@
+[
+ {
+  "id": "B-01",
+  "question": "What is the hostel fee per year?",
+  "expect": [
+   "85,000"
+  ]
+ },
+ {
+  "id": "B-02",
+  "question": "When is the odd semester tuition due?",
+  "expect": [
+   "15 july"
+  ]
+ },
+ {
+  "id": "B-03",
+  "question": "What is the late fee for tuition?",
+  "expect": [
+   "500"
+  ]
+ },
+ {
+  "id": "B-04",
+  "question": "How much attendance do I need for exams?",
+  "expect": [
+   "75"
+  ]
+ },
+ {
+  "id": "B-05",
+  "question": "How many days do I have to apply for re-evaluation?",
+  "expect": [
+   "7 days",
+   "7"
+  ]
+ },
+ {
+  "id": "B-06",
+  "question": "How many books can I borrow?",
+  "expect": [
+   "4"
+  ]
+ },
+ {
+  "id": "B-07",
+  "question": "What is the library fine per day?",
+  "expect": [
+   "rs 5",
+   "5 per day",
+   "5"
+  ]
+ },
+ {
+  "id": "B-08",
+  "question": "What time is the hostel curfew on weekends?",
+  "expect": [
+   "11"
+  ]
+ },
+ {
+  "id": "B-09",
+  "question": "Who gets the merit scholarship?",
+  "expect": [
+   "9.0",
+   "cgpa"
+  ]
+ },
+ {
+  "id": "B-10",
+  "question": "What are the library timings?",
+  "expect": [
+   "8 am",
+   "8:00",
+   "10 pm"
+  ]
+ }
+]
