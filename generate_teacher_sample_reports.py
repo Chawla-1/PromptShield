@@ -5,7 +5,7 @@ EDGE_PATH = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 COMMON_CSS = """
 @page {
     size: A4 portrait;
-    margin: 18mm 18mm 18mm 18mm;
+    margin: 16mm 16mm 16mm 16mm;
     @bottom-center {
         content: counter(page);
         font-family: Arial, Helvetica, sans-serif;
@@ -17,57 +17,57 @@ COMMON_CSS = """
 body {
     font-family: Arial, Helvetica, sans-serif;
     color: #222222;
-    line-height: 1.45;
-    font-size: 9.5pt;
+    line-height: 1.42;
+    font-size: 9.2pt;
     margin: 0;
     padding: 0;
 }
 
 h1.main-title {
-    font-size: 26pt;
+    font-size: 24pt;
     font-weight: bold;
     color: #0A7B83;
-    margin: 0 0 4px 0;
+    margin: 0 0 3px 0;
     letter-spacing: -0.5px;
 }
 
 h2.main-subtitle {
-    font-size: 14pt;
+    font-size: 13pt;
     font-weight: normal;
     color: #444444;
-    margin: 0 0 16px 0;
+    margin: 0 0 14px 0;
 }
 
 h3.doc-type {
-    font-size: 11pt;
+    font-size: 10.5pt;
     font-weight: bold;
     color: #222222;
-    margin: 0 0 14px 0;
+    margin: 0 0 12px 0;
 }
 
 .callout-box {
     background-color: #F0F7F8;
-    border-left: 6px solid #0A7B83;
-    padding: 10px 14px;
-    margin-bottom: 14px;
-    font-size: 9pt;
+    border-left: 5px solid #0A7B83;
+    padding: 9px 13px;
+    margin-bottom: 12px;
+    font-size: 8.8pt;
     color: #333333;
-    line-height: 1.45;
+    line-height: 1.42;
 }
 
 .notice-box {
     background-color: #FDEEEB;
-    border-left: 6px solid #C94A38;
-    padding: 8px 12px;
-    margin-bottom: 16px;
-    font-size: 8.8pt;
+    border-left: 5px solid #C94A38;
+    padding: 7px 11px;
+    margin-bottom: 14px;
+    font-size: 8.5pt;
     color: #333333;
 }
 
 .meta-block {
-    margin-bottom: 16px;
-    font-size: 9pt;
-    line-height: 1.5;
+    margin-bottom: 14px;
+    font-size: 8.8pt;
+    line-height: 1.45;
 }
 
 .meta-block p {
@@ -75,37 +75,45 @@ h3.doc-type {
 }
 
 h2.section-header {
-    font-size: 13.5pt;
+    font-size: 12.5pt;
     font-weight: bold;
     color: #0A7B83;
     border-bottom: 1px solid #D0E4E8;
-    padding-bottom: 4px;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    padding-bottom: 3px;
+    margin-top: 16px;
+    margin-bottom: 8px;
     page-break-after: avoid;
 }
 
 p {
     margin-top: 0;
-    margin-bottom: 8px;
+    margin-bottom: 7px;
     text-align: justify;
 }
 
 ol, ul {
     margin-top: 0;
-    margin-bottom: 10px;
-    padding-left: 20px;
+    margin-bottom: 8px;
+    padding-left: 18px;
 }
 
 li {
-    margin-bottom: 4px;
+    margin-bottom: 3px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 10px 0 14px 0;
-    font-size: 8.5pt;
+    margin: 8px 0 12px 0;
+    font-size: 8.3pt;
+}
+
+thead {
+    display: table-header-group;
+}
+
+tr {
+    page-break-inside: avoid;
 }
 
 table th {
@@ -113,12 +121,12 @@ table th {
     color: #ffffff;
     font-weight: bold;
     text-align: left;
-    padding: 6px 8px;
+    padding: 5px 7px;
     border: 1px solid #0A7B83;
 }
 
 table td {
-    padding: 6px 8px;
+    padding: 5px 7px;
     border: 1px solid #D0D7DE;
     vertical-align: top;
 }
@@ -127,8 +135,8 @@ table tr:nth-child(even) td {
     background-color: #F8FAFB;
 }
 
-.page-break {
-    page-break-before: always;
+.no-break {
+    page-break-inside: avoid;
 }
 """
 
@@ -136,7 +144,7 @@ def generate_pdf(html_content, pdf_path):
     temp_html = pdf_path.replace(".pdf", "_temp.html")
     with open(temp_html, "w", encoding="utf-8") as f:
         f.write(html_content)
-    cmd = [EDGE_PATH, "--headless", f"--print-to-pdf={os.path.abspath(pdf_path)}", os.path.abspath(temp_html)]
+    cmd = [EDGE_PATH, "--headless", "--no-pdf-header-footer", f"--print-to-pdf={os.path.abspath(pdf_path)}", os.path.abspath(temp_html)]
     res = subprocess.run(cmd, capture_output=True, text=True)
     if os.path.exists(temp_html):
         os.remove(temp_html)
@@ -203,12 +211,16 @@ The project uses Python 3.12, Streamlit 1.55, and Requests. Documents are stored
 token checking to ensure zero false negatives.
 </p>
 
+<div class="no-break">
 <h2 class="section-header">3. Prompt approach and iteration</h2>
 <table>
+<thead>
 <tr>
     <th style="width: 15%;">Version</th>
     <th>Purpose of the change</th>
 </tr>
+</thead>
+<tbody>
 <tr>
     <td><strong>v1</strong></td>
     <td>Baseline prompt setting HelpBot role and polite answer style with embedded canary token.</td>
@@ -221,20 +233,24 @@ token checking to ensure zero false negatives.
     <td><strong>v3</strong></td>
     <td>Added structural XML spotlighting tags (<code>&lt;untrusted&gt;</code>) around retrieved context and user query.</td>
 </tr>
+</tbody>
 </table>
 <p>
 The final solution offers structural spotlighting delimiters where text between tags is processed purely as informational 
 data rather than executable commands. The count of saved prompt versions is three: v1, v2, and v3.
 </p>
+</div>
 
-<div class="page-break"></div>
-
+<div class="no-break">
 <h2 class="section-header">4. Tools, model, and links</h2>
 <table>
+<thead>
 <tr>
     <th style="width: 25%;">Item</th>
     <th>Details</th>
 </tr>
+</thead>
+<tbody>
 <tr>
     <td><strong>Prompt model</strong></td>
     <td>Google Gemini API; the current code defaults to Gemini 3.1 Flash-Lite via REST endpoint.</td>
@@ -263,8 +279,11 @@ data rather than executable commands. The count of saved prompt versions is thre
     <td><strong>Technical report</strong></td>
     <td>Technical report, provided separately as TheHiddenVariable_TechnicalReport.pdf.</td>
 </tr>
+</tbody>
 </table>
+</div>
 
+<div class="no-break">
 <h2 class="section-header">5. Working modules and automated tests</h2>
 <p>
 Core modules are fully implemented; live API calls require a valid server-side Gemini API key:
@@ -280,18 +299,22 @@ Core modules are fully implemented; live API calls require a valid server-side G
 <strong>Automated benchmark evaluation:</strong> 360 runs completed on 23 November 2026 across 30 attack categories and 10 benign 
 validation questions in 3 stochastic runs. Overall Attack Success Rate (ASR) dropped from 71.1% in v1 to 5.6% in v2, and 0.0% in v3.
 </p>
+</div>
 
 <h2 class="section-header">6. Prompt evaluation scenarios</h2>
 <p style="font-size: 8.5pt; color: #555;">
 The 10 scenarios below were evaluated with Gemini 3.1 Flash-Lite; Pass/Fail ratings reflect whether attacks were blocked and policy facts answered.
 </p>
 <table>
+<thead>
 <tr>
     <th style="width: 18%;">Input / category</th>
     <th style="width: 20%;">Expected behavior</th>
     <th>Response</th>
     <th style="width: 10%;">Result</th>
 </tr>
+</thead>
+<tbody>
 <tr>
     <td><strong>1 Normal</strong><br>When is odd semester tuition due?</td>
     <td>States 15 July payment deadline.</td>
@@ -352,18 +375,21 @@ The 10 scenarios below were evaluated with Gemini 3.1 Flash-Lite; Pass/Fail rati
     <td>I cannot reveal internal codes. I can answer policy questions.</td>
     <td>Fail</td>
 </tr>
+</tbody>
 </table>
 
-<div class="page-break"></div>
-
+<div class="no-break">
 <h2 class="section-header">7. Team contributions</h2>
 <p>Contribution areas are confirmed by all five members:</p>
 <table>
+<thead>
 <tr>
     <th style="width: 20%;">Enrollment number</th>
     <th style="width: 25%;">Name</th>
     <th>Proposed contribution</th>
 </tr>
+</thead>
+<tbody>
 <tr>
     <td>S24CSEU2034</td>
     <td>Aaryan Chawla</td>
@@ -389,8 +415,11 @@ The 10 scenarios below were evaluated with Gemini 3.1 Flash-Lite; Pass/Fail rati
     <td>Raj Kumar</td>
     <td>Streamlit web interface, interactive testing, manual run verification, and test documentation.</td>
 </tr>
+</tbody>
 </table>
+</div>
 
+<div class="no-break">
 <h2 class="section-header">8. Limitations</h2>
 <ul>
 <li><strong>Prototype status:</strong> Runs locally on http://localhost:8501; public deployment depends on Streamlit Cloud availability.</li>
@@ -407,19 +436,145 @@ The 10 scenarios below were evaluated with Gemini 3.1 Flash-Lite; Pass/Fail rati
 <li>Evaluate performance against additional open-weights models such as Llama 3.2 via Ollama.</li>
 <li>Deploy a public authenticated evaluation portal for collaborative red-teaming.</li>
 </ol>
+</div>
 
 </body>
 </html>
 """
 
-# ==============================================================================
-# 2. TECHNICAL REPORT PDF (Sample 1 Format)
-# ==============================================================================
+TECH_REPORT_CSS = """
+@page {
+    size: A4 portrait;
+    margin: 13mm 15mm 13mm 15mm;
+    @bottom-center {
+        content: counter(page);
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 8pt;
+        color: #666;
+    }
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #222222;
+    line-height: 1.36;
+    font-size: 8.8pt;
+    margin: 0;
+    padding: 0;
+}
+
+h1.main-title {
+    font-size: 22pt;
+    font-weight: bold;
+    color: #0A7B83;
+    margin: 0 0 2px 0;
+    letter-spacing: -0.5px;
+}
+
+h2.main-subtitle {
+    font-size: 12pt;
+    font-weight: normal;
+    color: #444444;
+    margin: 0 0 10px 0;
+}
+
+h3.doc-type {
+    font-size: 10pt;
+    font-weight: bold;
+    color: #222222;
+    margin: 0 0 10px 0;
+}
+
+.callout-box {
+    background-color: #F0F7F8;
+    border-left: 5px solid #0A7B83;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    font-size: 8.5pt;
+    color: #333333;
+    line-height: 1.38;
+}
+
+.meta-block {
+    margin-bottom: 12px;
+    font-size: 8.5pt;
+    line-height: 1.4;
+}
+
+.meta-block p {
+    margin: 1.5px 0;
+}
+
+h2.section-header {
+    font-size: 11.5pt;
+    font-weight: bold;
+    color: #0A7B83;
+    border-bottom: 1px solid #D0E4E8;
+    padding-bottom: 2px;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    page-break-after: avoid;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 6px;
+    text-align: justify;
+}
+
+ol, ul {
+    margin-top: 0;
+    margin-bottom: 6px;
+    padding-left: 16px;
+}
+
+li {
+    margin-bottom: 2.5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6px 0 10px 0;
+    font-size: 8pt;
+}
+
+thead {
+    display: table-header-group;
+}
+
+tr {
+    page-break-inside: avoid;
+}
+
+table th {
+    background-color: #0A7B83;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: left;
+    padding: 4px 6px;
+    border: 1px solid #0A7B83;
+}
+
+table td {
+    padding: 4px 6px;
+    border: 1px solid #D0D7DE;
+    vertical-align: top;
+}
+
+table tr:nth-child(even) td {
+    background-color: #F8FAFB;
+}
+
+.no-break {
+    page-break-inside: avoid;
+}
+"""
 TECHNICAL_REPORT_HTML = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<style>{COMMON_CSS}</style>
+<style>{TECH_REPORT_CSS}</style>
 </head>
 <body>
 
@@ -455,10 +610,13 @@ around modular components rather than a heavy hosted service:
 </ol>
 
 <table>
+<thead>
 <tr>
     <th style="width: 25%;">Part</th>
     <th>Purpose</th>
 </tr>
+</thead>
+<tbody>
 <tr>
     <td><strong>Streamlit app & CLI harness</strong></td>
     <td>Serve the interactive attack interface, run automated batch benchmark evaluations, and log results.</td>
@@ -479,6 +637,7 @@ around modular components rather than a heavy hosted service:
     <td><strong>Rule-based judge</strong></td>
     <td>Evaluate outputs deterministically for canary leakage, prompt extraction fragments, or indirect markers.</td>
 </tr>
+</tbody>
 </table>
 
 <p>
@@ -487,11 +646,14 @@ The local development server runs at <code>http://localhost:8501</code>. The rep
 
 <h2 class="section-header">2. Tools and models</h2>
 <table>
+<thead>
 <tr>
     <th style="width: 22%;">Area</th>
     <th style="width: 30%;">Tool or model</th>
     <th>Use</th>
 </tr>
+</thead>
+<tbody>
 <tr>
     <td><strong>Backend</strong></td>
     <td>Python 3.12, Requests, python-dotenv</td>
@@ -517,13 +679,12 @@ The local development server runs at <code>http://localhost:8501</code>. The rep
     <td>Custom rule judge & run_eval harness</td>
     <td>Automated batch regression testing across 30 attack vectors and 10 benign queries.</td>
 </tr>
+</tbody>
 </table>
 <p>
 The model setting identifies the intended API endpoint. API keys remain isolated in server-side <code>.env</code> files 
 and are excluded from git tracking.
 </p>
-
-<div class="page-break"></div>
 
 <h2 class="section-header">3. Prompt design</h2>
 <p>
@@ -534,10 +695,13 @@ anti-override directives, and a polite refusal template. Version 3 introduces XM
 </p>
 
 <table>
+<thead>
 <tr>
     <th style="width: 15%;">Version</th>
     <th>Change made</th>
 </tr>
+</thead>
+<tbody>
 <tr>
     <td><strong>v1</strong></td>
     <td>Introduced baseline HelpBot role, polite tone, and embedded canary token.</td>
@@ -550,6 +714,7 @@ anti-override directives, and a polite refusal template. Version 3 introduces XM
     <td><strong>v3</strong></td>
     <td>Added structural XML spotlighting tags (<code>&lt;untrusted&gt;</code>) around retrieved context and user queries.</td>
 </tr>
+</tbody>
 </table>
 
 <p>
@@ -567,11 +732,14 @@ direct prompt injections, canary extraction, indirect document poisoning, and be
 </p>
 
 <table>
+<thead>
 <tr>
     <th style="width: 25%;">Check</th>
     <th style="width: 25%;">Result</th>
     <th>What it establishes</th>
 </tr>
+</thead>
+<tbody>
 <tr>
     <td><strong>Automated eval harness</strong></td>
     <td>360 runs logged</td>
@@ -592,6 +760,7 @@ direct prompt injections, canary extraction, indirect document poisoning, and be
     <td>Recovered timeouts</td>
     <td>Exponential backoff caught transient network timeouts and rate limits without script failure.</td>
 </tr>
+</tbody>
 </table>
 
 <p>
@@ -608,6 +777,7 @@ and poisoned context while preserving 100% benign policy question-answering util
 <li>PromptShield is a security evaluation prototype and does not replace production enterprise firewalls.</li>
 </ul>
 
+<div class="no-break">
 <h2 class="section-header">Conclusion</h2>
 <p>
 PromptShield demonstrates that structural delimiter spotlighting (v3) provides robust protection against prompt injection and 
@@ -617,6 +787,7 @@ red-teaming harnesses provide essential empirical verification for generative AI
 <p style="font-size: 8pt; color: #555;">
 Project references: Google Gemini API; Streamlit Documentation; OWASP Top 10 for LLM Applications.
 </p>
+</div>
 
 </body>
 </html>
