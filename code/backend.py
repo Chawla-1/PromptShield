@@ -4,6 +4,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Seamlessly load Streamlit Community Cloud secrets into os.environ if present
+try:
+    import streamlit as st
+    if hasattr(st, "secrets"):
+        for k in ["GEMINI_API_KEY", "PS_GEMINI_MODEL", "PS_BACKEND", "PS_OLLAMA_MODEL"]:
+            if k in st.secrets and not os.getenv(k):
+                os.environ[k] = str(st.secrets[k]).strip().strip('"').strip("'")
+except Exception:
+    pass
+
 GEMINI_MODEL = os.getenv("PS_GEMINI_MODEL", "gemini-3.1-flash-lite")
 OLLAMA_MODEL = os.getenv("PS_OLLAMA_MODEL", "llama3.2:3b")
 
