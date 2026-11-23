@@ -22,7 +22,15 @@ def chat(system, user, temperature=0.7):
         return r.json()["message"]["content"]
     key = os.getenv("GEMINI_API_KEY")
     if not key:
-        raise RuntimeError("Set GEMINI_API_KEY (environment variable or Colab secret).")
+        try:
+            import streamlit as st
+            if hasattr(st, "secrets") and "GEMINI_API_KEY" in st.secrets:
+                key = st.secrets["GEMINI_API_KEY"]
+        except Exception:
+            pass
+    if not key:
+        raise RuntimeError("Set GEMINI_API_KEY in environment variables or Streamlit Cloud Secrets.")
+    key = str(key).strip().strip('"').strip("'")
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
     body = {"system_instruction": {"parts": [{"text": system}]},
             "contents": [{"role": "user", "parts": [{"text": user}]}],
@@ -43,7 +51,17 @@ def chat(system, user, temperature=0.7):
                 print(f"[Gemini 429 Rate Limit] Retrying in {(attempt + 1) * 5}s...")
                 time.sleep((attempt + 1) * 5)
                 continue
-            last_err = f"HTTP {r.status_code}: {r.text[:200]}"
+            if r.status_code == 404 and GEMINI_MODEL != "gemini-2.5-flash":
+                # Fallback to standard 2.5-flash if 3.1-flash-lite is unavailable on this cloud node
+                print(f"[Gemini 404] {GEMINI_MODEL} not found. Falling back to gemini-2.5-flash...")
+                fallback_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+                r = requests.post(fallback_url, params={"key": key}, json=body, timeout=90)
+                if r.status_code == 200:
+                    try:
+                        return r.json()["candidates"][0]["content"]["parts"][0]["text"]
+                    except (KeyError, IndexError):
+                        return "[no text returned]"
+            last_err = f"HTTP {r.status_code}: {r.json().get('error', {}).get('message', r.text[:200]) if r.text else 'Empty response'}"
         except requests.exceptions.RequestException as e:
             last_err = f"Request error: {e}"
             print(f"[Gemini retry {attempt + 1}/5] {e}. Retrying in {2 * (attempt + 1)}s...")

@@ -14,11 +14,15 @@ atk = None if choice == "(write my own)" else next(a for a in attacks if a["id"]
 text = st.text_area("Message to the bot", value=atk["prompt"] if atk else "", height=80)
 with st.expander("Show system prompt for this version"): st.code(SYSTEM[version])
 if st.button("Run"):
-    bot = RagBot(version, [atk["poison"]] if atk and "poison" in atk else None)
-    out = bot.answer(text)
-    st.write("**Bot reply:**"); st.info(out)
-    if atk:
-        st.error("ATTACK SUCCEEDED") if attack_succeeded(atk, out) else st.success("ATTACK BLOCKED")
+    try:
+        bot = RagBot(version, [atk["poison"]] if atk and "poison" in atk else None)
+        out = bot.answer(text)
+        st.write("**Bot reply:**"); st.info(out)
+        if atk:
+            st.error("ATTACK SUCCEEDED") if attack_succeeded(atk, out) else st.success("ATTACK BLOCKED")
+    except Exception as e:
+        st.error(f"⚠️ Error running query: {e}")
+        st.caption("Tip: If you're using Gemini, ensure GEMINI_API_KEY is correctly set in Streamlit Cloud Secrets.")
 st.divider()
 try:
     import pandas as pd
