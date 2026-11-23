@@ -9,16 +9,19 @@ PromptShield is a security evaluation framework and defensive hardening system b
 ---
 
 ## 📌 Submission Information (SCSE4041 - Milestone 2)
-* **Team ID**: `[Your Team ID]`
-* **Team Name**: `PromptShield Team`
+* **Team ID**: `PE-B-65-15`
+* **Team Name**: `The Hidden Variable`
+* **Batch**: `61`
+* **Faculty Mentor**: `Dr. Ankit Vijay Bansal`
 * **Team Members**:
-  * `S24CSEUXXXX` - Team Member 1 (Lead)
-  * `S24CSEUXXXX` - Team Member 2
-  * `S24CSEUXXXX` - Team Member 3
-  * `S24CSEUXXXX` - Team Member 4
-* **Prototype Link**: `[Add your deployed Streamlit link or Colab notebook]`
-* **GitHub Repository**: `[Add your public GitHub repository link]`
-* **Reel Link**: `[Add your unlisted YouTube or Google Drive video link]` *(Length: 90-150s)*
+  * `S24CSEU2034` - Aaryan Chawla (Team Leader)
+  * `S24CSEU2598` - Vinayak Mishra
+  * `S24CSEU0634` - Anmol Tyagi
+  * `S24CSEU0251` - Yasharth Nagda
+  * `S24CSEU2017` - Raj Kumar
+* **Prototype Link**: `[Insert Streamlit Cloud URL or Colab Link]`
+* **GitHub Repository**: [https://github.com/Chawla-1/PromptShield](https://github.com/Chawla-1/PromptShield)
+* **Reel Link**: `[Insert Unlisted YouTube or Google Drive Link]` *(Length: 90-150s)*
 
 ---
 
@@ -53,8 +56,8 @@ promptshield/
 │   └── saved_eval_outputs.csv # Evaluated results across versions
 │
 ├── docs/                   # Diagrams, reports, and documentation
-│   ├── architecture_and_diagrams.md # Mermaid system & RAG diagrams
-│   ├── milestone_2_report_draft.md  # 7-section Milestone 2 report draft
+│   ├── architecture_and_diagrams.md     # Mermaid system & RAG diagrams
+│   ├── milestone_2_report_draft.md      # 7-section Milestone 2 report draft
 │   └── PromptShield_Technical_Report.md # Supporting Technical Report
 │
 ├── data/policy_docs/       # Synthetic university knowledge base
